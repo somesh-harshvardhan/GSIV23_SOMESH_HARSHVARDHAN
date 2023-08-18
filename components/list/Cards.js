@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { moviePosterUrl } from "../axios";
 import Image from "next/image";
-const shimmer = (w, h) => `
+import Link from "next/link";
+export const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
@@ -15,7 +16,7 @@ const shimmer = (w, h) => `
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
 
-const toBase64 = (str) =>
+export const toBase64 = (str) =>
   typeof window === "undefined"
     ? Buffer.from(str).toString("base64")
     : window.btoa(str);
@@ -31,6 +32,7 @@ const Card = ({ movie }) => {
   } = movie;
 
   return (
+    <Link href={{pathname : `/details/${id}`,query :{ 'movie-name' :original_title}}} >
     <div className=" rounded-lg shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] relative overflow-hidden flex-wrap pb-3 transition hover:translate-y-1 cursor-pointer hover:shadow-[rgba(0,_0,_0,_0.24)_0px_3px_20px]">
       <div className=" h-[230px] relative">
         <Image
@@ -49,6 +51,7 @@ const Card = ({ movie }) => {
       </div>
       <div className=" line-clamp-2 px-2">{overview}</div>
     </div>
+    </Link>
   );
 };
 
