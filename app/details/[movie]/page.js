@@ -3,18 +3,28 @@ import Image from 'next/image';
 import React from 'react'
 
 const fetchDetails = async (movie)=>{
+  try {
     const response = await movieDetailsUrl(movie);
     const {data} = response;
     const {poster_path,vote_average,vote_count,overview,original_title,runtime,release_date} = data;
     return {poster_path,vote_average,overview,original_title,runtime,release_date}
+  } catch (error) {
+    console.log(error)
+  }
+    
 }
 const fetchCredits = async (movie)=>{
-    const response  = await movideCreditsUrl(movie);
+  try {
+     const response  = await movideCreditsUrl(movie);
     const {data} = response;
     const {cast,crew} = data;
     const allCasts = [...cast,...crew].filter(item=>item.known_for_department === 'Acting').map(item=>item.name);
     const director = [...cast,...crew].filter(item=>item.known_for_department === 'Directing').map(item=>item.name);
     return {allCasts,director : director[0]};
+  } catch (error) {
+    console.log(error)
+  }
+   
 }
 function toHoursAndMinutes(totalMinutes) {
     const hours = Math.floor(totalMinutes / 60);
